@@ -6,11 +6,14 @@ import urllib
 import json
 import glob
 
+
+
 state_names = glob.glob("/home/ppdev/data/jsons/*.json")
-print(state_names)
 for file in state_names:
     state_name = file.split('/')[-1].split('.')[0]
     print('------------------------')
+    from datetime import datetime
+    datetime.now().strftime("%Y/%m/%d %H:%M:%S")
     print(state_name)
 # state_name = 'DistrictofColumbia'
     f = open('/home/ppdev/data/jsons/{}.json'.format(state_name, 'r'))
@@ -18,7 +21,7 @@ for file in state_names:
 
     meter_per_pixel = 100 / (np.sqrt(206**2 + 10**2))
     lat_meter = 6378150*2*np.pi/(360)
-    current_lat = json_dict["features"][i]["geometry"]["coordinates"][0][0]
+    current_lat = json_dict["features"][0]["geometry"]["coordinates"][0][0]
     long_meter = 6378150*np.cos(current_lat/180*np.pi)*2*np.pi/(360)
 
     min_long = min_lat = np.inf
@@ -111,6 +114,9 @@ for file in state_names:
             f.write("\n".join(lat_long_list))
         f.close()
 
+    from datetime import datetime
+    datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    print("start download...")
     for lat in np.arange(min_lat+margin_lat, max_lat+margin_lat, stride_lat):
         for long in np.arange(min_long+margin_long, max_long+margin_long, stride_long):
             save(lat_long_list)
@@ -126,3 +132,5 @@ for file in state_names:
     print(np.arange(min_lat+margin_lat, max_lat+margin_lat, stride_lat).shape)
     print(np.arange(min_long+margin_long, max_long+margin_long, stride_long).shape)
     print(len(lat_long_list))
+    from datetime import datetime
+    datetime.now().strftime("%Y/%m/%d %H:%M:%S")
