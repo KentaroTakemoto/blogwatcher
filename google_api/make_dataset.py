@@ -6,14 +6,14 @@ import urllib
 import json
 import glob
 
-state_names = glob.glob("/data/jsons/*.json")
+state_names = glob.glob("/home/ppdev/data/jsons/*.json")
 print(state_names)
 for file in state_names:
     state_name = file.split('/')[-1].split('.')[0]
     print('------------------------')
     print(state_name)
 # state_name = 'DistrictofColumbia'
-    f = open('~/data/jsons/{}.json'.format(state_name, 'r'))
+    f = open('/home/ppdev/data/jsons/{}.json'.format(state_name, 'r'))
     json_dict = json.load(f)
 
     meter_per_pixel = 100 / (np.sqrt(206**2 + 10**2))
@@ -93,8 +93,8 @@ for file in state_names:
         Image.fromarray(np.asarray(image)[margin:margin+image_size,margin:margin+image_size]).save(directory+filename+".png")
         return True
 
-    pic_directory = "/data/pictures/{}/".format(state_name)
-    lab_directory = "/data/labels/{}/".format(state_name)
+    pic_directory = "/home/ppdev/data/pictures/{}/".format(state_name)
+    lab_directory = "/home/ppdev/data/labels/{}/".format(state_name)
     if not os.path.exists(pic_directory):
         os.mkdir(pic_directory)
     if not os.path.exists(lab_directory):
