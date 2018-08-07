@@ -21,7 +21,7 @@ for file in state_names:
 
     meter_per_pixel = 100 / (np.sqrt(206**2 + 10**2))
     lat_meter = 6378150*2*np.pi/(360)
-    current_lat = json_dict["features"][0]["geometry"]["coordinates"][0][0]
+    current_lat = float(json_dict["features"][0]["geometry"]["coordinates"][0][0])
     long_meter = 6378150*np.cos(current_lat/180*np.pi)*2*np.pi/(360)
 
     min_long = min_lat = np.inf
