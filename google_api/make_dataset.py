@@ -6,7 +6,7 @@ import urllib
 import json
 import glob
 
-state_names = glob.glob("~/data/jsons/*.json")
+state_names = glob.glob("/data/jsons/*.json")
 print(state_names)
 for file in state_names:
     state_name = file.split('/')[-1].split('.')[0]
@@ -93,8 +93,8 @@ for file in state_names:
         Image.fromarray(np.asarray(image)[margin:margin+image_size,margin:margin+image_size]).save(directory+filename+".png")
         return True
 
-    pic_directory = "~/data/pictures/{}/".format(state_name)
-    lab_directory = "~/data/labels/{}/".format(state_name)
+    pic_directory = "/data/pictures/{}/".format(state_name)
+    lab_directory = "/data/labels/{}/".format(state_name)
     if not os.path.exists(pic_directory):
         os.mkdir(pic_directory)
     if not os.path.exists(lab_directory):
