@@ -9,8 +9,10 @@ import glob
 state_names = glob.glob("~/data/jsons//*.json")
 for file in state_names:
     state_name = file.split('/')[-1].split('.')[0]
+    print('------------------------')
+    print(state_name)
 # state_name = 'DistrictofColumbia'
-    f = open('{}.json'.format(state_name, 'r')
+    f = open('~/data/jsons/{}.json'.format(state_name, 'r'))
     json_dict = json.load(f)
 
     meter_per_pixel = 100 / (np.sqrt(206**2 + 10**2))
