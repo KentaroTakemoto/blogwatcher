@@ -129,6 +129,7 @@ for file in state_names:
             if flag:
                 download_pic(url,center,pic_directory)
                 lat_long_list.append('{}/{}'.format(state_name,center))
+        print(len(lat_long_list))
 
     print('data_shape')
     print(np.arange(min_lat+margin_lat, max_lat+margin_lat, stride_lat).shape)
