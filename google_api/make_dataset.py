@@ -7,6 +7,7 @@ import json
 import glob
 
 state_names = glob.glob("~/data/jsons//*.json")
+print(state_names)
 for file in state_names:
     state_name = file.split('/')[-1].split('.')[0]
     print('------------------------')
