@@ -39,7 +39,7 @@ def get_pixel(lat, long, center_lat, center_long,img_size=640,pad=0):
 
 def create_label(center_lat,center_long,directory,image_size=640):
     contain_flag = False
-    _,filename = make_url(center_lat,center_long, zoom=18)
+    filename = str(center_lat) + "," + str(center_long)
 
     buildings = []
     margin = int(image_size/2)
