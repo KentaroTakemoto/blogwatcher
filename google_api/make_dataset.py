@@ -138,32 +138,32 @@ for file in state_names:
         print("lat:{}".format(lat))
         for long in np.arange(min_long+margin_long, max_long+margin_long, stride_long):
             print("long:{}".format(long))
-            save(lat_long_list)
             url, center = make_url(lat,long,api_keys[key_num], zoom=18)
-            if '{}/{}'.format(state_name,center) in lat_long_list:
-                continue
-            if count==1:
-                start = time.time()
-                print("start time")
-            elif count==2:
-                elapsed_time = time.time() - start
-                print ("elapsed_time1:{0}".format(elapsed_time) + "[sec]")
-            elif count==11:
-                elapsed_time = time.time() - start
-                print ("elapsed_time10:{0}".format(elapsed_time) + "[sec]")
-            elif count==101:
-                elapsed_time = time.time() - start
-                print ("elapsed_time100:{0}".format(elapsed_time) + "[sec]")
-            flag = create_label(lat,long,lab_directory,image_size=640)
-            if flag:
-                count += 1
-                key_num = download_pic(url,center,pic_directory,key_num)
-                if pre_key_num!=key_num:
-                    url, center = make_url(lat,long,api_keys[key_num], zoom=18)
+            if '{}/{}'.format(state_name,center) not in lat_long_list:
+                if count==1:
+                    start = time.time()
+                    print("start time")
+                elif count==2:
+                    elapsed_time = time.time() - start
+                    print ("elapsed_time1:{0}".format(elapsed_time) + "[sec]")
+                elif count==11:
+                    elapsed_time = time.time() - start
+                    print ("elapsed_time10:{0}".format(elapsed_time) + "[sec]")
+                elif count==101:
+                    elapsed_time = time.time() - start
+                    print ("elapsed_time100:{0}".format(elapsed_time) + "[sec]")
+
+                save(lat_long_list)
+                flag = create_label(lat,long,lab_directory,image_size=640)
+                if flag:
+                    count += 1
                     key_num = download_pic(url,center,pic_directory,key_num)
-                lat_long_list.append('{}/{}'.format(state_name,center))
-            if len(lat_long_list)%100==0:
-                print(len(lat_long_list))
+                    if pre_key_num!=key_num:
+                        url, center = make_url(lat,long,api_keys[key_num], zoom=18)
+                        key_num = download_pic(url,center,pic_directory,key_num)
+                    lat_long_list.append('{}/{}'.format(state_name,center))
+                if len(lat_long_list)%100==0:
+                    print(len(lat_long_list))
         print("len(lat_long_list):{}".format(len(lat_long_list)))
 
     print('data_shape')
