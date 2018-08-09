@@ -139,7 +139,7 @@ for file in state_names:
         for long in np.arange(min_long+margin_long, max_long+margin_long, stride_long):
             print("long:{}".format(long))
             save(lat_long_list)
-            url, center = make_url(lat,long,api_keys[key_num] zoom=18)
+            url, center = make_url(lat,long,api_keys[key_num], zoom=18)
             if '{}/{}'.format(state_name,center) in lat_long_list:
                 continue
             if count==1:
