@@ -136,6 +136,8 @@ for file in state_names:
     count = 0
     for lat in np.arange(min_lat+margin_lat, max_lat+margin_lat, stride_lat):
         print("lat:{}".format(lat))
+        if lat==39.7212756378488:
+            continue
         for long in np.arange(min_long+margin_long, max_long+margin_long, stride_long):
             print("long:{}".format(long))
             url, center = make_url(lat,long,api_keys[key_num], zoom=18)
