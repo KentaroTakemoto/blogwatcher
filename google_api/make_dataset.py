@@ -122,22 +122,28 @@ for file in state_names:
     print("start download...")
     count = 0
     for lat in np.arange(min_lat+margin_lat, max_lat+margin_lat, stride_lat):
+        print("lat:{}".format(lat))
         for long in np.arange(min_long+margin_long, max_long+margin_long, stride_long):
             save(lat_long_list)
             url, center = make_url(lat,long, zoom=18)
             if '{}/{}'.format(state_name,center) in lat_long_list:
                 continue
-            count += 1
             if count==1:
                 start = time.time()
             elif count==11:
                 elapsed_time = time.time() - start
-                print ("elapsed_time:{0}".format(elapsed_time) + "[sec]")
+                print ("elapsed_time10:{0}".format(elapsed_time) + "[sec]")
+            elif count==101:
+                elapsed_time = time.time() - start
+                print ("elapsed_time100:{0}".format(elapsed_time) + "[sec]")
             flag = create_label(lat,long,lab_directory,image_size=640)
             if flag:
+                count += 1
                 download_pic(url,center,pic_directory)
                 lat_long_list.append('{}/{}'.format(state_name,center))
-        print(len(lat_long_list))
+            if len(lat_long_list)%100==0:
+                print(len(lat_long_list))
+        print("len(lat_long_list):{}".format(len(lat_long_list)))
 
     print('data_shape')
     print(np.arange(min_lat+margin_lat, max_lat+margin_lat, stride_lat).shape)
