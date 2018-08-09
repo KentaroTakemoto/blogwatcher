@@ -50,11 +50,18 @@ for file in state_names:
     stride_long = meter_per_pixel*640/long_meter
 
     def download_pic(url,filename,directory):
-        with urllib.request.urlopen(url) as url_:
-            img = url_.read()
-        localfile = open(directory+str(filename)+".png",'wb')
-        localfile.write(img)
-        localfile.close()
+        try:
+            with urllib.request.urlopen(url) as url_:
+                img = url_.read()
+        except urllib.error.HTTPError as e:
+            print(e.code)
+            print(e.read())
+            img = False
+            hoge()
+        if image:
+            localfile = open(directory+str(filename)+".png",'wb')
+            localfile.write(img)
+            localfile.close()
 
     def make_url(lat,long, zoom=18, key='AIzaSyCh1nSA01a_9LzvHOKHsFuP5CZLauzcpfI'):
         html1 = "https://maps.googleapis.com/maps/api/staticmap?center="
