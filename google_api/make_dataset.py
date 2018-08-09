@@ -6,7 +6,7 @@ import urllib
 import json
 import glob
 import os
-
+import time
 
 
 state_names = glob.glob("/home/ppdev/data/jsons/*.json")
@@ -120,12 +120,19 @@ for file in state_names:
     from datetime import datetime
     datetime.now().strftime("%Y/%m/%d %H:%M:%S")
     print("start download...")
+    count = 0
     for lat in np.arange(min_lat+margin_lat, max_lat+margin_lat, stride_lat):
         for long in np.arange(min_long+margin_long, max_long+margin_long, stride_long):
             save(lat_long_list)
             url, center = make_url(lat,long, zoom=18)
-            if center in lat_long_list:
+            if '{}/{}'.format(state_name,center) in lat_long_list:
                 continue
+            count += 1
+            if count==1:
+                start = time.time()
+            elif count==11:
+                elapsed_time = time.time() - start
+                print ("elapsed_time:{0}".format(elapsed_time) + "[sec]")
             flag = create_label(lat,long,lab_directory,image_size=640)
             if flag:
                 download_pic(url,center,pic_directory)
