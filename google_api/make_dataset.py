@@ -139,7 +139,7 @@ for file in state_names:
         if lat==39.7212756378488:
             continue
         for long in np.arange(min_long+margin_long, max_long+margin_long, stride_long):
-            print("long:{}".format(long))
+            # print("long:{}".format(long))
             url, center = make_url(lat,long,api_keys[key_num], zoom=18)
             if '{}/{}'.format(state_name,center) not in lat_long_list:
                 if count==1:
