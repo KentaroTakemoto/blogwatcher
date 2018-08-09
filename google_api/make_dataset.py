@@ -25,7 +25,7 @@ def download_pic(url,filename,directory,key_num):
         print(e.read())
         img = False
         key_num += 1
-    if image:
+    if img:
         localfile = open(directory+str(filename)+".png",'wb')
         localfile.write(img)
         localfile.close()
@@ -161,6 +161,7 @@ for file in state_names:
                     if pre_key_num!=key_num:
                         url, center = make_url(lat,long,api_keys[key_num], zoom=18)
                         key_num = download_pic(url,center,pic_directory,key_num)
+                        pre_key_num = key_num
                     lat_long_list.append('{}/{}'.format(state_name,center))
                 if len(lat_long_list)%100==0:
                     print(len(lat_long_list))
