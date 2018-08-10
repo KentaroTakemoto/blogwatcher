@@ -72,7 +72,7 @@ def save(lat_long_list):
         f.write("\n".join(lat_long_list))
     f.close()
 
-api_keys = ["AIzaSyACqUbsT9E2eShglWPm01btIMKjBQQD948", "AIzaSyCh1nSA01a_9LzvHOKHsFuP5CZLauzcpfI"]
+api_keys = ["AIzaSyACqUbsT9E2eShglWPm01btIMKjBQQD948", "AIzaSyCh1nSA01a_9LzvHOKHsFuP5CZLauzcpfI","AIzaSyBmnPFBAlSitn92LUcZUHPtmEDvmFJ3YWg"]
 key_num = 0
 pre_key_num = 0
 
@@ -161,6 +161,9 @@ for file in state_names:
                     count += 1
                     key_num = download_pic(url,center,pic_directory,key_num)
                     if pre_key_num!=key_num:
+                        print("changed key")
+                        if key_num==len(api_keys):
+                            key_num=0
                         url, center = make_url(lat,long,api_keys[key_num], zoom=18)
                         key_num = download_pic(url,center,pic_directory,key_num)
                         pre_key_num = key_num
