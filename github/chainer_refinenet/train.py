@@ -47,7 +47,7 @@ parser.add_argument('--gpu', '-g', default=0, type=int,
 # parser.add_argument('--train_dataset', '-tr', default='dataset', type=str)
 # parser.add_argument('--target_dataset', '-ta', default='dataset', type=str)
 parser.add_argument('--train_txt', '-tt', default='/home/ppdev/data/train.txt', type=str)
-parser.add_argument('--batchsize', '-b', type=int, default=5,
+parser.add_argument('--batchsize', '-b', type=int, default=10,
           help='batch size (default value is 1)')
 parser.add_argument('--initmodel', '-i', default=None, type=str,
           help='initialize the model from given file')
