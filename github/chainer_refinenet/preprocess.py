@@ -11,7 +11,12 @@ def load_data(path, crop=False, mode="label", xp=np, hflip=False, rscale=False, 
   3. Sample random 224x224 patch
   '''
 
-  img = Image.open(path)
+  try:
+      img = Image.open(path)
+  except FileNotFoundError:
+      print("file not found : {}".format(path))
+      return None
+
 #   if img.mode == 'L':
 #       img = img.convert('RGB')
 
