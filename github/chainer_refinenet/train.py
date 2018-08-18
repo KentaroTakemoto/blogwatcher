@@ -42,12 +42,12 @@ def copy_model(src, dst):
 
 # entry point
 parser = argparse.ArgumentParser(description='RefineNet on Chainer (train)')
-parser.add_argument('--gpu', '-g', default=-1, type=int,
+parser.add_argument('--gpu', '-g', default=0, type=int,
           help='GPU ID (negative value indicates CPU)')
 # parser.add_argument('--train_dataset', '-tr', default='dataset', type=str)
 # parser.add_argument('--target_dataset', '-ta', default='dataset', type=str)
-parser.add_argument('--train_txt', '-tt', default='train.txt', type=str)
-parser.add_argument('--batchsize', '-b', type=int, default=1,
+parser.add_argument('--train_txt', '-tt', default='/home/ppdev/data/train.txt', type=str)
+parser.add_argument('--batchsize', '-b', type=int, default=5,
           help='batch size (default value is 1)')
 parser.add_argument('--initmodel', '-i', default=None, type=str,
           help='initialize the model from given file')
@@ -60,9 +60,9 @@ n_epoch = args.epoch
 batchsize = args.batchsize
 # train_dataset = args.train_dataset
 # target_dataset = args.target_dataset
-train_dataset = '/data/unagi0/takemoto/blogwatcher/pictures/'
-target_dataset = '/data/unagi0/takemoto/blogwatcher/labels/'
-weight_path = '/data/unagi0/takemoto/blogwatcher/weights/test1/'
+train_dataset = '/home/ppdev/data/pictures/'
+target_dataset = '/home/ppdev/data/labels/'
+weight_path = '/home/ppdev/data/weights/test1/'
 if not os.path.exists(weight_path):
     od.mkdir(weight_path)
 
