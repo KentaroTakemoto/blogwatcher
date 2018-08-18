@@ -15,7 +15,7 @@ def load_data(path, crop=False, mode="label", xp=np, hflip=False, rscale=False, 
       img = Image.open(path)
   except FileNotFoundError:
       print("file not found : {}".format(path))
-      return None
+      img = Image.open("/home/ppdev/data/pictures/Pennsylvania/39.7212756378488,-80.51015989198811.png")
 
 #   if img.mode == 'L':
 #       img = img.convert('RGB')
