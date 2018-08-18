@@ -99,13 +99,16 @@ xp = np if args.gpu < 0 else cuda.cupy
 optimizer = optimizers.Adam(alpha=args.lr)
 
 optimizer.setup(model)
-optimizer.add_hook(chainer.optimizer.WeightDecay(1e-4), 'hook_fcn')
+optimizer.add_hook(chainer.optimizer.WeightDecay(1e-5), 'hook_fcn')
 
 print("## INFORMATION ##")
 print("Num Data: {}, Batchsize: {}, Iteration {}".format(n_data, batchsize, n_iter))
 
 
 print("-"*40)
+loss_history = []
+best_epoch = 0
+best_loss = np.inf
 for epoch in range(1, n_epoch+1):
   print('epoch', epoch)
   random.shuffle(names)
@@ -158,14 +161,20 @@ for epoch in range(1, n_epoch+1):
     optimizer.update()
     loss_sum += loss.data
 
-  print("\n average loss: ", loss_sum/n_iter)
+  loss = loss_sum/n_iter
+  print("\n average loss: ", loss)
   print("-"*40)
-
-  if epoch % 1 == 0:
-    if not os.path.exists("weight"):
-      os.mkdir("weight")
-    fn = weight_path+'chainer_refinenet_'+str(epoch)+'.weight'
+  if best_loss>loss:
+    fn = weight_path+'chainer_refinenet_tmp.weight'
     serializers.save_npz(fn, model)
+    best_epoch = epoch
+    best_loss = loss
+
+  print("best_epoch:{} best_loss:{}".format(best_epoch,best_loss))
+  loss_history.append(loss)
+  print("history:")
+  print(loss_history)
+
 
 serializers.save_npz(weight_path+'chainer_refinenet_final.weight', model)
 serializers.save_npz(weight_path+'chainer_refinenet_final.state', optimizer)
