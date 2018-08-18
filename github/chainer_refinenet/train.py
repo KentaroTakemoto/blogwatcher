@@ -139,7 +139,7 @@ for epoch in range(1, n_epoch+1):
       xs = random.randint(0, rs-225)
       ys = random.randint(0, rs-225)
       x[j] = load_data(xpath, crop=True, mode="data", hflip=hflip, rcrop=True, xs=xs, ys=ys, rs=rs, xp=xp)
-      if x[j]:
+      if x[j] is not None:
           y[j] = load_data(ypath, crop=True, mode="label", hflip=hflip, rcrop=True, xs=xs, ys=ys, rs=rs, xp=xp)
       else:
           x[j] = x[0]
