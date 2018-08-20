@@ -21,8 +21,9 @@ def download_pic(url,filename,directory,key_num):
         with urllib.request.urlopen(url) as url_:
             img = url_.read()
     except urllib.error.HTTPError as e:
-        print(e.code)
-        print(e.read())
+        # print(e.code)
+        # print(e.read())
+        print("url error:{}".format(key_num))
         img = False
         key_num += 1
     if img:
