@@ -62,7 +62,7 @@ batchsize = args.batchsize
 # target_dataset = args.target_dataset
 train_dataset = '/home/ppdev/data/pictures/'
 target_dataset = '/home/ppdev/data/labels/'
-weight_path = '/home/ppdev/data/weights/test1/'
+weight_path = '/home/ppdev/data/weights/test2/'
 if not os.path.exists(weight_path):
     od.mkdir(weight_path)
 
