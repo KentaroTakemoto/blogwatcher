@@ -64,7 +64,7 @@ train_dataset = '/home/ppdev/data/pictures/'
 target_dataset = '/home/ppdev/data/labels/'
 weight_path = '/home/ppdev/data/weights/test2/'
 if not os.path.exists(weight_path):
-    od.mkdir(weight_path)
+    os.mkdir(weight_path)
 
 train_txt = args.train_txt
 
