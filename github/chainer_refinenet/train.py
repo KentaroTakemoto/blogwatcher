@@ -47,11 +47,11 @@ parser.add_argument('--gpu', '-g', default=0, type=int,
 # parser.add_argument('--train_dataset', '-tr', default='dataset', type=str)
 # parser.add_argument('--target_dataset', '-ta', default='dataset', type=str)
 parser.add_argument('--train_txt', '-tt', default='/home/ppdev/data/train.txt', type=str)
-parser.add_argument('--batchsize', '-b', type=int, default=10,
+parser.add_argument('--batchsize', '-b', type=int, default=1,
           help='batch size (default value is 1)')
 parser.add_argument('--initmodel', '-i', default=None, type=str,
           help='initialize the model from given file')
-parser.add_argument('--epoch', '-e', default=50, type=int)
+parser.add_argument('--epoch', '-e', default=150, type=int)
 parser.add_argument('--class_num', '-n', default=21, type=int)
 parser.add_argument('--lr', '-l', default=1e-4, type=float)
 args = parser.parse_args()
@@ -113,11 +113,11 @@ for epoch in range(1, n_epoch+1):
   print('epoch', epoch)
   random.shuffle(names)
 
-  if epoch == 3:
+  if epoch == 10:
     optimizer.alpha *= 0.1
-  elif epoch == 6:
+  elif epoch == 50:
     optimizer.alpha *= 0.1
-  elif epoch % 10 == 0:
+  elif epoch % 100 == 0:
     optimizer.alpha *= 0.1
 
   loss_sum = 0
