@@ -69,7 +69,7 @@ def create_label(center_lat,center_long,directory,image_size=640):
 
 def save(lat_long_list):
     np.save('lat_long_list.npy',np.array(lat_long_list))
-    with open("train.txt", "w", encoding="utf-8") as f:
+    with open("/home/ppdev/data/train.txt", "w", encoding="utf-8") as f:
         f.write("\n".join(lat_long_list))
     f.close()
 
