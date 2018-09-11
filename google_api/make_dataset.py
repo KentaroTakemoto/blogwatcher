@@ -73,7 +73,7 @@ def save(lat_long_list):
         f.write("\n".join(lat_long_list))
     f.close()
 
-api_keys = ["AIzaSyACqUbsT9E2eShglWPm01btIMKjBQQD948", "AIzaSyCh1nSA01a_9LzvHOKHsFuP5CZLauzcpfI","AIzaSyBmnPFBAlSitn92LUcZUHPtmEDvmFJ3YWg"]
+api_keys = ["AIzaSyACqUbsT9E2eShglWPm01btIMKjBQQD948", "AIzaSyCh1nSA01a_9LzvHOKHsFuP5CZLauzcpfI","AIzaSyCt--bU78srBs-1TOiCeLKGEt7h8vnbw-I","AIzaSyBmnPFBAlSitn92LUcZUHPtmEDvmFJ3YWg"]
 key_num = 0
 pre_key_num = 0
 
@@ -137,7 +137,7 @@ for file in state_names:
     count = 0
     for lat in np.arange(min_lat+margin_lat, max_lat+margin_lat, stride_lat):
         print("lat:{}".format(lat))
-        if lat<=39.7630895510251:
+        if lat<=39.77702752208386:
             continue
         for long in np.arange(min_long+margin_long, max_long+margin_long, stride_long):
             # print("long:{}".format(long))
