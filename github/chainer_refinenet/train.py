@@ -47,11 +47,11 @@ parser.add_argument('--gpu', '-g', default=0, type=int,
 # parser.add_argument('--train_dataset', '-tr', default='dataset', type=str)
 # parser.add_argument('--target_dataset', '-ta', default='dataset', type=str)
 parser.add_argument('--train_txt', '-tt', default='/home/ppdev/data/train.txt', type=str)
-parser.add_argument('--batchsize', '-b', type=int, default=1,
+parser.add_argument('--batchsize', '-b', type=int, default=3,
           help='batch size (default value is 1)')
 parser.add_argument('--initmodel', '-i', default=None, type=str,
           help='initialize the model from given file')
-parser.add_argument('--epoch', '-e', default=150, type=int)
+parser.add_argument('--epoch', '-e', default=120, type=int)
 parser.add_argument('--class_num', '-n', default=21, type=int)
 parser.add_argument('--lr', '-l', default=1e-4, type=float)
 args = parser.parse_args()
@@ -62,7 +62,7 @@ batchsize = args.batchsize
 # target_dataset = args.target_dataset
 train_dataset = '/home/ppdev/data/pictures/'
 target_dataset = '/home/ppdev/data/labels/'
-weight_path = '/home/ppdev/data/weights/test2/'
+weight_path = '/home/ppdev/data/weights/test3/'
 if not os.path.exists(weight_path):
     os.mkdir(weight_path)
 
@@ -99,7 +99,7 @@ xp = np if args.gpu < 0 else cuda.cupy
 optimizer = optimizers.Adam(alpha=args.lr)
 
 optimizer.setup(model)
-optimizer.add_hook(chainer.optimizer.WeightDecay(1e-5), 'hook_fcn')
+optimizer.add_hook(chainer.optimizer.WeightDecay(1e-4), 'hook_fcn')
 
 print("## INFORMATION ##")
 print("Num Data: {}, Batchsize: {}, Iteration {}".format(n_data, batchsize, n_iter))
@@ -178,3 +178,4 @@ for epoch in range(1, n_epoch+1):
 
 serializers.save_npz(weight_path+'chainer_refinenet_final.weight', model)
 serializers.save_npz(weight_path+'chainer_refinenet_final.state', optimizer)
+np.save(weight_path+"loss_history.npy",loss_history)
