@@ -62,8 +62,11 @@ if __name__ == '__main__':
     img = Image.open('/home/ppdev/data/pictures/'+name+".png")
     pred = predict(img, args.weight, args.class_num, args.gpu)
     pred = chainer.cuda.to_cpu(pred[0].argmax(axis=0))
+    print(np.sum(pred))
 
     label = np.array(Image.open('/home/ppdev/data/labels/'+name+".png").resize((224,224)))
+    print(np.sum(label))
+    print(label[100:110,100:110])
 
     print(np.logical_and(pred, label))
     print("----------------------------------------")
@@ -73,5 +76,5 @@ if __name__ == '__main__':
     score_sum += score
   print(score_sum/1)
   import pickle
-  with open('results/test2_tmp.pickle', 'wb') as f:
+  with open('/home/ppdev/codes/blogwatcher/github/chainer_refinenet/results/test2_tmp.pickle', 'wb') as f:
       pickle.dump(scores, f)
