@@ -62,11 +62,18 @@ if __name__ == '__main__':
     if i%10==0:
         print(i)
     name = names[test_ind]
+    label = np.array(Image.open('/home/ppdev/data/labels/'+name+".png").resize((224,224)))
+    if np.isclose(np.sum(label),0):
+        score = 1
+        counter+=1
+        print(name)
+        scores[name] = score
+        score_sum += score
+        continue
+
     img = Image.open('/home/ppdev/data/pictures/'+name+".png")
     pred = predict(img, args.weight, args.class_num, args.gpu)
     pred = chainer.cuda.to_cpu(pred[0].argmax(axis=0))
-
-    label = np.array(Image.open('/home/ppdev/data/labels/'+name+".png").resize((224,224)))
 
     if np.isclose(np.sum(pred),0) and np.isclose(np.sum(label),0):
         score = 1
