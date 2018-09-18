@@ -74,6 +74,7 @@ if __name__ == '__main__':
         score = np.sum(np.logical_and(pred, label)) / np.sum(np.logical_or(pred, label),dtype=np.float32)
     scores[name] = score
     score_sum += score
+  print(counter)
   print((score_sum-counter)/(100-counter))
   import pickle
   with open('/home/ppdev/codes/blogwatcher/github/chainer_refinenet/results/test2_tmp.pickle', 'wb') as f:
