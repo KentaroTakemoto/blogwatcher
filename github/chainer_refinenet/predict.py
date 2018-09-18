@@ -16,19 +16,19 @@ def predict(image, weight, class_num, gpu=-1):
     chainer.cuda.get_device(gpu).use()
     model.to_gpu()
   xp = np if args.gpu < 0 else cuda.cupy
-  
+
   img = image.resize((224,224))
   rgbimg = Image.new("RGB", img.size)
   rgbimg.paste(img)
   img = rgbimg
-      
+
   mean = xp.array([103.939, 116.779, 123.68])
 #   img -= mean
   x = xp.asarray(img, dtype=xp.float32)
   x -= mean
 #   x = xp.expand_dims(x, axis=0)
   x = x.transpose(2, 0, 1)
-  
+
   x = xp.expand_dims(x, axis=0)
 
   with chainer.using_config('train', False):
@@ -39,11 +39,11 @@ def predict(image, weight, class_num, gpu=-1):
 if __name__ == '__main__':
 
   parser = argparse.ArgumentParser(description='RefineNet on Chainer (predict)')
-  parser.add_argument('--gpu', '-g', default=-1, type=int,
+  parser.add_argument('--gpu', '-g', default=0, type=int,
                     help='GPU ID (negative value indicates CPU)')
   parser.add_argument('--image_path', '-i', default=None, type=str)
   parser.add_argument('--class_num', '-n', default=21, type=int)
-  parser.add_argument('--weight', '-w', default="weight/chainer_fcn.weight", type=str)
+  parser.add_argument('--weight', '-w', default="~/data/weights/test1/chainer_refinenet_final.weight", type=str)
   args = parser.parse_args()
 
   img = Image.open(args.image_path)
@@ -86,8 +86,8 @@ if __name__ == '__main__':
   o.save("out/original.jpg")
 
   trans.save("out/pred.png")
-    
-    
+
+
   import cv2
   o = cv2.imread("out/original.jpg", 1)
   p = cv2.imread("out/pred.png", 1)
@@ -99,10 +99,8 @@ if __name__ == '__main__':
 #   os.remove("out/original.jpg")
 #   os.remove("out/pred.png")
 
-#   cv2.imshow("image", pred) 
+#   cv2.imshow("image", pred)
 #   while cv2.waitKey(33) != 27:
 #     pass
 
   cv2.imwrite("out.jpg", pred)
-
-
