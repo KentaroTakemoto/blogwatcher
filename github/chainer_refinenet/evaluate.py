@@ -78,7 +78,7 @@ if __name__ == '__main__':
     pred2 = predict(img, args.weight2, args.class_num, args.gpu)
     pred2 = chainer.cuda.to_cpu(pred2[0].argmax(axis=0))
 
-    np.int8(np.logical_or(pred1,pred2))
+    pred = np.int8(np.logical_or(pred1,pred2))
     if np.isclose(np.sum(pred),0) and np.isclose(np.sum(label),0):
         score = 1
         counter+=1
