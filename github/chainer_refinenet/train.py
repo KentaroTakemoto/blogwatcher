@@ -136,9 +136,9 @@ for epoch in range(1, n_epoch+1):
     ypath = target_dataset+name+".png"
 
     if random.randint(0, 1):
-    hflip = True
+        hflip = True
     else:
-    hflip = False
+        hflip = False
 
     rs = random.randint(256, 480)
     xs = random.randint(0, rs-225)
