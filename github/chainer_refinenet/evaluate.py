@@ -61,7 +61,7 @@ if __name__ == '__main__':
     name = names[test_ind]
     img = Image.open('/home/ppdev/data/pictures/'+name+".png")
     pred = predict(img, args.weight, args.class_num, args.gpu)
-    pred = pred[0].argmax(axis=0)
+    pred = chainer.cuda.to_cpu(pred[0].argmax(axis=0))
 
     label = np.array(Image.open('/home/ppdev/data/labels/'+name+".png").resize((224,224)))
 
