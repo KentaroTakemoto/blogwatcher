@@ -43,7 +43,8 @@ if __name__ == '__main__':
                     help='GPU ID (negative value indicates CPU)')
   parser.add_argument('--train_txt', '-tt', default='/home/ppdev/data/train.txt', type=str)
   parser.add_argument('--class_num', '-n', default=21, type=int)
-  parser.add_argument('--weight', '-w', default="/home/ppdev/data/weights/test2/chainer_refinenet_tmp.weight", type=str)
+  parser.add_argument('--weight1', '-w', default="/home/ppdev/data/weights/test2/chainer_refinenet_tmp.weight", type=str)
+  parser.add_argument('--weight2', '-w', default="/home/ppdev/data/weights/test3/chainer_refinenet_tmp.weight", type=str)
   args = parser.parse_args()
 
 
@@ -72,9 +73,12 @@ if __name__ == '__main__':
         continue
 
     img = Image.open('/home/ppdev/data/pictures/'+name+".png")
-    pred = predict(img, args.weight, args.class_num, args.gpu)
-    pred = chainer.cuda.to_cpu(pred[0].argmax(axis=0))
+    pred1 = predict(img, args.weight1, args.class_num, args.gpu)
+    pred1 = chainer.cuda.to_cpu(pred1[0].argmax(axis=0))
+    pred2 = predict(img, args.weight2, args.class_num, args.gpu)
+    pred2 = chainer.cuda.to_cpu(pred2[0].argmax(axis=0))
 
+    np.int8(np.logical_or(pred1,pred2))
     if np.isclose(np.sum(pred),0) and np.isclose(np.sum(label),0):
         score = 1
         counter+=1
