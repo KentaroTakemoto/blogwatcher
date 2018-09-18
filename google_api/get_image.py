@@ -3,6 +3,7 @@ import numpy as np
 from pygeocoder import Geocoder
 import urllib
 import json
+import os
 
 def download_pic(url,filename,directory):
     with urllib.request.urlopen(url) as url_:
@@ -29,7 +30,7 @@ def make_url(lat,long, zoom=18, key='AIzaSyCh1nSA01a_9LzvHOKHsFuP5CZLauzcpfI'):
 # #     img.close()
 #     localfile.close()
 
-directory = "/home/ppdev/code/blogwatcher/github/chainer_refinenet/test_images/"
+directory = "/home/ppdev/codes/blogwatcher/github/chainer_refinenet/test_images/"
 if not os.path.exists(directory):
     os.mkdir(directory)
 
@@ -43,3 +44,6 @@ for i in range(5):
     download_pic(url,center,directory)
     lat_long_list.append(center)
     long += 0.00358696351780452
+
+with open("/home/ppdev/codes/blogwatcher/github/chainer_refinenet/test_images/japan5.txt", "w", encoding="utf-8") as f:
+    f.write("\n".join(lat_long_list))
