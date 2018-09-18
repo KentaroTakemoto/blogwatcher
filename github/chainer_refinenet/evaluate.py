@@ -55,7 +55,7 @@ if __name__ == '__main__':
   test_inds = np.random.permutation(n_data)[:1]
 
   for test_ind in test_inds:
-      name = names[test_ind]
+    name = names[test_ind]
     img = Image.open('/home/ppdev/data/pictures/'+name+".png")
     pred = predict(img, args.weight, args.class_num, args.gpu)
     x = pred[0].copy()
