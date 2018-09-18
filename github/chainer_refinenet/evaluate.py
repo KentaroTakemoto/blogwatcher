@@ -43,7 +43,7 @@ if __name__ == '__main__':
                     help='GPU ID (negative value indicates CPU)')
   parser.add_argument('--train_txt', '-tt', default='/home/ppdev/data/train.txt', type=str)
   parser.add_argument('--class_num', '-n', default=21, type=int)
-  parser.add_argument('--weight', '-w', default="~/data/weights/test2/chainer_refinenet_tmp.weight", type=str)
+  parser.add_argument('--weight', '-w', default="/home/ppdev/data/weights/test2/chainer_refinenet_tmp.weight", type=str)
   args = parser.parse_args()
 
 
