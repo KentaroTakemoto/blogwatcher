@@ -53,28 +53,28 @@ if __name__ == '__main__':
   names = [l.rstrip('\n') for l in ls]
   n_data = len(names)
   np.random.seed(seed=42)
-  test_inds = np.random.permutation(n_data)[:1]
+  test_inds = np.random.permutation(n_data)[:100]
 
   scores = {}
   score_sum = 0
+  counter = 0
   for test_ind in test_inds:
     name = names[test_ind]
     img = Image.open('/home/ppdev/data/pictures/'+name+".png")
     pred = predict(img, args.weight, args.class_num, args.gpu)
     pred = chainer.cuda.to_cpu(pred[0].argmax(axis=0))
-    print(np.sum(pred))
 
     label = np.array(Image.open('/home/ppdev/data/labels/'+name+".png").resize((224,224)))
-    print(np.sum(label))
-    print(label[100:110,100:110])
 
-    print(np.logical_and(pred, label))
-    print("----------------------------------------")
-    print(np.logical_or(pred, label))
-    score = np.sum(np.logical_and(pred, label)) / np.sum(np.logical_or(pred, label),dtype=np.float32)
+    if np.isclose(np.sum(pred),0) and np.isclose(np.sum(label),0):
+		score = 1
+        counter+=1
+        print(name)
+    else:
+        score = np.sum(np.logical_and(pred, label)) / np.sum(np.logical_or(pred, label),dtype=np.float32)
     scores[name] = score
     score_sum += score
-  print(score_sum/1)
+  print((score_sum-counter)/(100-counter))
   import pickle
   with open('/home/ppdev/codes/blogwatcher/github/chainer_refinenet/results/test2_tmp.pickle', 'wb') as f:
       pickle.dump(scores, f)
