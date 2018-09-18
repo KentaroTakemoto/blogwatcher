@@ -54,8 +54,8 @@ if __name__ == '__main__':
       for i,name in enumerate(names):
         img = Image.open("/home/ppdev/codes/blogwatcher/github/chainer_refinenet/test_images/{}.png".format(name))
         pred = predict(img, args.weight, args.class_num, args.gpu)
-        x = preds[0].copy()
-        pred = preds[0].argmax(axis=0)
+        x = pred[0].copy()
+        pred = pred[0].argmax(axis=0)
 
         row, col = pred.shape
 
