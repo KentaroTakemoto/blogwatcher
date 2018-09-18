@@ -36,38 +36,6 @@ def predict(image, weight, class_num, gpu=-1):
 
     return pred
 
-def predict_multi(names, weight, class_num, gpu=-1):
-  model = RefineResNet(class_num)
-  serializers.load_npz(weight, model)
-
-  if gpu >= 0:
-    chainer.cuda.get_device(gpu).use()
-    model.to_gpu()
-  xp = np if args.gpu < 0 else cuda.cupy
-
-  for i,name in enumerate(names):
-      img = Image.open("/home/ppdev/codes/blogwatcher/github/chainer_refinenet/test_images/{}.png".format(name))
-      img = img.resize((224,224))
-      rgbimg = Image.new("RGB", img.size)
-      rgbimg.paste(img)
-      img = rgbimg
-
-      mean = xp.array([103.939, 116.779, 123.68])
-    #   img -= mean
-      x = xp.asarray(img, dtype=xp.float32)
-      x -= mean
-    #   x = xp.expand_dims(x, axis=0)
-      x = x.transpose(2, 0, 1)
-      if i==0:
-          whole = xp.expand_dims(x, axis=0)
-      else:
-          whole = np.vstack([whole,xp.expand_dims(x, axis=0)])
-
-  with chainer.using_config('train', False):
-    pred = model(whole).data
-
-    return pred
-
 
 if __name__ == '__main__':
 
@@ -83,10 +51,11 @@ if __name__ == '__main__':
       with open(args.image_path,"r") as f:
         ls = f.readlines()
       names = [l.rstrip('\n') for l in ls]
-      preds = predict_multi(names, args.weight, args.class_num, args.gpu)
       for i,name in enumerate(names):
-        x = preds[i].copy()
-        pred = preds[i].argmax(axis=0)
+        img = Image.open("/home/ppdev/codes/blogwatcher/github/chainer_refinenet/test_images/{}.png".format(name))
+        pred = predict(img, args.weight, args.class_num, args.gpu)
+        x = preds[0].copy()
+        pred = preds[0].argmax(axis=0)
 
         row, col = pred.shape
 
