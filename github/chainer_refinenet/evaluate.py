@@ -41,48 +41,28 @@ if __name__ == '__main__':
   parser = argparse.ArgumentParser(description='RefineNet on Chainer (predict)')
   parser.add_argument('--gpu', '-g', default=0, type=int,
                     help='GPU ID (negative value indicates CPU)')
-  parser.add_argument('--image_path', '-i', default=None, type=str)
   parser.add_argument('--class_num', '-n', default=21, type=int)
-  parser.add_argument('--weight', '-w', default="~/data/weights/test1/chainer_refinenet_final.weight", type=str)
+  parser.add_argument('--weight', '-w', default="~/data/weights/test2/chainer_refinenet_tmp.weight", type=str)
   args = parser.parse_args()
 
-  img = Image.open(args.image_path)
-  pred = predict(img, args.weight, args.class_num, args.gpu)
-  print(pred.shape)
-  x = pred[0].copy()
-  pred = pred[0].argmax(axis=0)
 
-  row, col = pred.shape
+  train_txt = args.train_txt
+  with open(train_txt,"r") as f:
+    ls = f.readlines()
+  names = [l.rstrip('\n') for l in ls]
+  n_data = len(names)
+  np.random.seed(seed=42)
+  test_inds = np.random.permutation(n_data)[:1]
 
-  xp = np if args.gpu < 0 else cuda.cupy
-  dst = xp.ones((row, col, 3))
+  for test_ind in test_inds:
+      name = names[test_ind]
+    img = Image.open('/home/ppdev/data/pictures/'+name+".png")
+    pred = predict(img, args.weight, args.class_num, args.gpu)
+    x = pred[0].copy()
+    pred = pred[0].argmax(axis=0)
+    print(pred.shape)
+    print(pred[0][:5])
 
-  color_map = make_color_map()
-  for i in range(args.class_num):
-    dst[pred == i] = color_map[i]
-
-  if args.gpu >= 0:
-    dst = cuda.to_cpu(dst)
-  img = Image.fromarray(np.uint8(dst))
-
-  b,g,r = img.split()
-  img = Image.merge("RGB", (r, g, b))
-
-  trans = Image.new('RGBA', img.size, (0, 0, 0, 0))
-  w, h = img.size
-  for x in range(w):
-    for y in range(h):
-      pixel = img.getpixel((x, y))
-      if (pixel[0] == 0   and pixel[1] == 0   and pixel[2] == 0) or \
-         (pixel[0] == 255 and pixel[1] == 255 and pixel[2] == 255):
-        continue
-      trans.putpixel((x, y), pixel)
-
-  if not os.path.exists("out"):
-    os.mkdir("out")
-
-  o = Image.open(args.image_path).convert('RGB')
-  ow, oh = o.size
-  o.save("out/original.jpg")
-
-  trans.save("out/pred.png")
+    label = np.array(Image.open('/home/ppdev/data/labels/'+name+".png"))
+    print(label.shape)
+    print(pred[0][:5])

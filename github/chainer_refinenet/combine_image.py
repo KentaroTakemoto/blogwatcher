@@ -1,21 +1,24 @@
-# from PIL import Image
-# o = Image.open("out/original.jpg").convert('RGB')
+# import cv2
+# o = cv2.imread("out/original.jpg", 1)
+# ow, oh = o.shape[:2]
+# p = cv2.imread("out/pred.png", 1)
+#
+# p = cv2.resize(p, (ow, oh))
+# pred = cv2.addWeighted(o, 0.6, p, 0.4, 0.0)
+#
+# cv2.imwrite("out/combined.jpg", pred)
 
+with open("github/chainer_refinenet/test_images/japan5.txt","r") as f:
+  ls = f.readlines()
+names = [l.rstrip('\n') for l in ls]
 
 import cv2
-o = cv2.imread("out/original.jpg", 1)
-ow, oh = o.shape[:2]
-p = cv2.imread("out/pred.png", 1)
+for name in names:
+    o = cv2.imread("github/chainer_refinenet/test_images/{}.png".format(name), 1)
+    ow, oh = o.shape[:2]
+    p = cv2.imread("github/chainer_refinenet/test_images/pred_{}.png".format(name), 1)
 
-p = cv2.resize(p, (ow, oh))
-pred = cv2.addWeighted(o, 0.6, p, 0.4, 0.0)
+    p = cv2.resize(p, (ow, oh))
+    pred = cv2.addWeighted(o, 0.6, p, 0.4, 0.0)
 
-# cv2.imwrite("out/pred_{}.png".format(img_name), pred)
-#   os.remove("out/original.jpg")
-#   os.remove("out/pred.png")
-
-#   cv2.imshow("image", pred)
-#   while cv2.waitKey(33) != 27:
-#     pass
-
-cv2.imwrite("out/combined.jpg", pred)
+    cv2.imwrite("github/chainer_refinenet/test_images/combined_{}.png".format(name), pred)
