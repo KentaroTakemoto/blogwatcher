@@ -69,11 +69,11 @@ if __name__ == '__main__':
     label = np.array(Image.open('/home/ppdev/data/labels/'+name+".png").resize((224,224)))
 
     if np.isclose(np.sum(pred),0) and np.isclose(np.sum(label),0):
-	  score = 1
-      counter+=1
-      print(name)
+        score = 1
+        counter+=1
+        print(name)
     else:
-      score = np.sum(np.logical_and(pred, label)) / np.sum(np.logical_or(pred, label),dtype=np.float32)
+        score = np.sum(np.logical_and(pred, label)) / np.sum(np.logical_or(pred, label),dtype=np.float32)
     scores[name] = score
     score_sum += score
   print(counter)
