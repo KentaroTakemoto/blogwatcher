@@ -47,7 +47,7 @@ def predict_multi(names, weight, class_num, gpu=-1):
 
   for i,name in enumerate(names):
       img = Image.open("/home/ppdev/codes/blogwatcher/github/chainer_refinenet/test_images/{}.png".format(name))
-      img = image.resize((224,224))
+      img = img.resize((224,224))
       rgbimg = Image.new("RGB", img.size)
       rgbimg.paste(img)
       img = rgbimg
