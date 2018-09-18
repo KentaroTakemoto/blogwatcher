@@ -61,12 +61,11 @@ if __name__ == '__main__':
     name = names[test_ind]
     img = Image.open('/home/ppdev/data/pictures/'+name+".png")
     pred = predict(img, args.weight, args.class_num, args.gpu)
-    x = pred[0].copy()
-    pred = np.array(pred[0].argmax(axis=0))
+    pred = pred[0].argmax(axis=0)
 
     label = np.array(Image.open('/home/ppdev/data/labels/'+name+".png").resize((224,224)))
 
-    score = np.sum((pred & label)) / np.sum((pred | label),dtype=np.float32)
+    score = np.sum(np.logical_and(pred, label)) / np.sum(np.logical_or(pred, label),dtype=np.float32)
     scores[name] = score
     score_sum += score
   print(score_sum/1)
