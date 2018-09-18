@@ -143,14 +143,16 @@ for epoch in range(1, n_epoch+1):
     rs = random.randint(256, 480)
     xs = random.randint(0, rs-225)
     ys = random.randint(0, rs-225)
-    x[0] = load_data(xpath, crop=True, mode="data", hflip=hflip, rcrop=True, xs=xs, ys=ys, rs=rs, xp=xp)
-    if x[0] is not None:
-        y[0] = load_data(ypath, crop=True, mode="label", hflip=hflip, rcrop=True, xs=xs, ys=ys, rs=rs, xp=xp)
-        if y[0] is None:
-            continue
-    else:
+    x_ = load_data(xpath, crop=True, mode="data", hflip=hflip, rcrop=True, xs=xs, ys=ys, rs=rs, xp=xp)
+    if x_ is None:
         continue
-
+    else:
+        x[0] = x_
+        y_ = load_data(ypath, crop=True, mode="label", hflip=hflip, rcrop=True, xs=xs, ys=ys, rs=rs, xp=xp)
+        if y_ is None:
+            continue
+        else:
+            y[0] = y_
     # for j in range(batchsize):
     #   name = names[i*batchsize + j]
     #   xpath = train_dataset+name+".png"
