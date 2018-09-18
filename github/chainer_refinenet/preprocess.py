@@ -14,9 +14,9 @@ def load_data(path, crop=False, mode="label", xp=np, hflip=False, rscale=False, 
   try:
       img = Image.open(path)
   except FileNotFoundError:
-      print("file not found : {}".format(path))
+      # print("file not found : {}".format(path))
       img = Image.open("/home/ppdev/data/pictures/Pennsylvania/39.7212756378488,-80.51015989198811.png")
-
+      return None
 #   if img.mode == 'L':
 #       img = img.convert('RGB')
 
@@ -43,6 +43,8 @@ def load_data(path, crop=False, mode="label", xp=np, hflip=False, rscale=False, 
 
   if mode=="label":
     y = xp.asarray(img, dtype=xp.int32)
+    if np.sum(y==1)<10:
+        return None
     y = y[ys:ys+224,xs:xs+224]
 
     if hflip:

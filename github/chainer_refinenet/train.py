@@ -47,7 +47,7 @@ parser.add_argument('--gpu', '-g', default=0, type=int,
 # parser.add_argument('--train_dataset', '-tr', default='dataset', type=str)
 # parser.add_argument('--target_dataset', '-ta', default='dataset', type=str)
 parser.add_argument('--train_txt', '-tt', default='/home/ppdev/data/train.txt', type=str)
-parser.add_argument('--batchsize', '-b', type=int, default=3,
+parser.add_argument('--batchsize', '-b', type=int, default=1,
           help='batch size (default value is 1)')
 parser.add_argument('--initmodel', '-i', default=None, type=str,
           help='initialize the model from given file')
@@ -62,7 +62,7 @@ batchsize = args.batchsize
 # target_dataset = args.target_dataset
 train_dataset = '/home/ppdev/data/pictures/'
 target_dataset = '/home/ppdev/data/labels/'
-weight_path = '/home/ppdev/data/weights/test3/'
+weight_path = '/home/ppdev/data/weights/test4/'
 if not os.path.exists(weight_path):
     os.mkdir(weight_path)
 
@@ -121,6 +121,9 @@ for epoch in range(1, n_epoch+1):
     optimizer.alpha *= 0.1
 
   loss_sum = 0
+  if epoch==1:
+      print("n_iter:{}".format(n_iter))
+  counter = 0
   for i in range(n_iter):
 
     model.zerograds()
@@ -128,26 +131,46 @@ for epoch in range(1, n_epoch+1):
 
     x = xp.zeros((batchsize, 3, 224, 224), dtype=np.float32)
     y = xp.zeros((batchsize, 224, 224), dtype=np.int32)
-    for j in range(batchsize):
-      name = names[i*batchsize + j]
-      xpath = train_dataset+name+".png"
-      ypath = target_dataset+name+".png"
+    name = names[i*batchsize]
+    xpath = train_dataset+name+".png"
+    ypath = target_dataset+name+".png"
 
-      if random.randint(0, 1):
-        hflip = True
-      else:
-        hflip = False
+    if random.randint(0, 1):
+    hflip = True
+    else:
+    hflip = False
 
-      rs = random.randint(256, 480)
-      xs = random.randint(0, rs-225)
-      ys = random.randint(0, rs-225)
-      x[j] = load_data(xpath, crop=True, mode="data", hflip=hflip, rcrop=True, xs=xs, ys=ys, rs=rs, xp=xp)
-      if x[j] is not None:
-          y[j] = load_data(ypath, crop=True, mode="label", hflip=hflip, rcrop=True, xs=xs, ys=ys, rs=rs, xp=xp)
-      else:
-          x[j] = x[0]
-          y[j] = y[0]
+    rs = random.randint(256, 480)
+    xs = random.randint(0, rs-225)
+    ys = random.randint(0, rs-225)
+    x[0] = load_data(xpath, crop=True, mode="data", hflip=hflip, rcrop=True, xs=xs, ys=ys, rs=rs, xp=xp)
+    if x[0] is not None:
+        y[0] = load_data(ypath, crop=True, mode="label", hflip=hflip, rcrop=True, xs=xs, ys=ys, rs=rs, xp=xp)
+        if y[0] is None:
+            continue
+    else:
+        continue
 
+    # for j in range(batchsize):
+    #   name = names[i*batchsize + j]
+    #   xpath = train_dataset+name+".png"
+    #   ypath = target_dataset+name+".png"
+    #
+    #   if random.randint(0, 1):
+    #     hflip = True
+    #   else:
+    #     hflip = False
+    #
+    #   rs = random.randint(256, 480)
+    #   xs = random.randint(0, rs-225)
+    #   ys = random.randint(0, rs-225)
+    #   x[j] = load_data(xpath, crop=True, mode="data", hflip=hflip, rcrop=True, xs=xs, ys=ys, rs=rs, xp=xp)
+    #   if x[j] is not None:
+    #       y[j] = load_data(ypath, crop=True, mode="label", hflip=hflip, rcrop=True, xs=xs, ys=ys, rs=rs, xp=xp)
+    #   else:
+    #       x[j] = x[0]
+    #       y[j] = y[0]
+    counter+=1
     x = Variable(x)
     y = Variable(y)
     with chainer.using_config('train', True):
@@ -169,6 +192,9 @@ for epoch in range(1, n_epoch+1):
     serializers.save_npz(fn, model)
     best_epoch = epoch
     best_loss = loss
+
+  if epoch==1:
+      print("counter : {}".format(counter))
 
   print("best_epoch:{} best_loss:{}".format(best_epoch,best_loss))
   loss_history.append(loss)
