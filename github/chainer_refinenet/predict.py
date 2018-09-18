@@ -61,7 +61,7 @@ def predict_multi(names, weight, class_num, gpu=-1):
       if i==0:
           whole = xp.expand_dims(x, axis=0)
       else:
-          whole[i] = x
+          whole = np.vstack([whole,xp.expand_dims(x, axis=0)])
 
   with chainer.using_config('train', False):
     pred = model(whole).data
