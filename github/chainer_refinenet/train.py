@@ -147,11 +147,11 @@ for epoch in range(1, n_epoch+1):
     if x_ is None:
         continue
     else:
-        x[0] = x_
         y_ = load_data(ypath, crop=True, mode="label", hflip=hflip, rcrop=True, xs=xs, ys=ys, rs=rs, xp=xp)
         if y_ is None:
             continue
         else:
+            x[0] = x_
             y[0] = y_
     # for j in range(batchsize):
     #   name = names[i*batchsize + j]
