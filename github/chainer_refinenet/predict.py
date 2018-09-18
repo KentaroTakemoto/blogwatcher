@@ -80,7 +80,7 @@ if __name__ == '__main__':
   args = parser.parse_args()
 
   if args.image_path[-3:]=="txt":
-      with open(train_txt,"r") as f:
+      with open(args.image_path,"r") as f:
         ls = f.readlines()
       names = [l.rstrip('\n') for l in ls]
       preds = predict_multi(names, args.weight, args.class_num, args.gpu)
