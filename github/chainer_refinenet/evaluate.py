@@ -44,8 +44,8 @@ if __name__ == '__main__':
   parser.add_argument('--train_txt', '-tt', default='/home/ppdev/data/train.txt', type=str)
   parser.add_argument('--class_num', '-n', default=21, type=int)
   parser.add_argument('--weight1', '-w1', default="/home/ppdev/data/weights/test2/chainer_refinenet_tmp.weight", type=str)
-  parser.add_argument('--weight2', '-w2', default="/home/ppdev/data/weights/test3/chainer_refinenet_tmp.weight", type=str)
-  parser.add_argument('--weight3', '-w3', default="/home/ppdev/data/weights/test4/chainer_refinenet_tmp.weight", type=str)
+  # parser.add_argument('--weight2', '-w2', default="/home/ppdev/data/weights/test3/chainer_refinenet_tmp.weight", type=str)
+  # parser.add_argument('--weight3', '-w3', default="/home/ppdev/data/weights/test4/chainer_refinenet_tmp.weight", type=str)
   args = parser.parse_args()
 
 
@@ -76,14 +76,14 @@ if __name__ == '__main__':
     img = Image.open('/home/ppdev/data/pictures/'+name+".png")
     pred1 = predict(img, args.weight1, args.class_num, args.gpu)
     pred1 = chainer.cuda.to_cpu(pred1[0].argmax(axis=0))
-    pred2 = predict(img, args.weight2, args.class_num, args.gpu)
-    pred2 = chainer.cuda.to_cpu(pred2[0].argmax(axis=0))
-    pred3 = predict(img, args.weight3, args.class_num, args.gpu)
-    pred3 = chainer.cuda.to_cpu(pred3[0].argmax(axis=0))
+    # pred2 = predict(img, args.weight2, args.class_num, args.gpu)
+    # pred2 = chainer.cuda.to_cpu(pred2[0].argmax(axis=0))
+    # pred3 = predict(img, args.weight3, args.class_num, args.gpu)
+    # pred3 = chainer.cuda.to_cpu(pred3[0].argmax(axis=0))
 
-    pred = np.int8(np.logical_or(pred1,pred2))
-    pred = np.int8(np.logical_or(pred,pred3))
-    # pred = pred1
+    # pred = np.int8(np.logical_or(pred1,pred2))
+    # pred = np.int8(np.logical_or(pred,pred3))
+    pred = pred1
     if np.isclose(np.sum(pred),0) and np.isclose(np.sum(label),0):
         score = 1
         counter+=1
@@ -95,5 +95,5 @@ if __name__ == '__main__':
   print(counter)
   print((score_sum-counter)/(100-counter))
   import pickle
-  with open('/home/ppdev/codes/blogwatcher/github/chainer_refinenet/results/combined3.pickle', 'wb') as f:
+  with open('/home/ppdev/codes/blogwatcher/github/chainer_refinenet/results/combined2.pickle', 'wb') as f:
       pickle.dump(scores, f)
