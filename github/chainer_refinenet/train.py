@@ -178,7 +178,7 @@ for epoch in range(1, n_epoch+1):
     with chainer.using_config('train', True):
       loss = model(x, y)
 
-    if i%10==0:
+    if i%50==0:
         sys.stdout.write("\r%s" % "batch: {}/{}, loss: {}".format(i+1, n_iter, loss.data))
         sys.stdout.flush()
 
