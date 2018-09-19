@@ -44,7 +44,7 @@ if __name__ == '__main__':
                     help='GPU ID (negative value indicates CPU)')
   parser.add_argument('--image_path', '-i', default=None, type=str)
   parser.add_argument('--class_num', '-n', default=21, type=int)
-  parser.add_argument('--weight', '-w', default="~/data/weights/test2/chainer_refinenet_tmp.weight", type=str)
+  parser.add_argument('--weight', '-w', default="~/data/weights/test4/chainer_refinenet_tmp.weight", type=str)
   args = parser.parse_args()
 
   if args.image_path[-3:]=="txt":
