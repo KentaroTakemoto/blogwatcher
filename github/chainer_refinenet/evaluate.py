@@ -43,7 +43,7 @@ if __name__ == '__main__':
                     help='GPU ID (negative value indicates CPU)')
   parser.add_argument('--train_txt', '-tt', default='/home/ppdev/data/train.txt', type=str)
   parser.add_argument('--class_num', '-n', default=21, type=int)
-  parser.add_argument('--weight1', '-w1', default="/home/ppdev/data/weights/test2/chainer_refinenet_tmp.weight", type=str)
+  parser.add_argument('--weight1', '-w1', default="/home/ppdev/data/weights/test3/chainer_refinenet_tmp.weight", type=str)
   # parser.add_argument('--weight2', '-w2', default="/home/ppdev/data/weights/test3/chainer_refinenet_tmp.weight", type=str)
   # parser.add_argument('--weight3', '-w3', default="/home/ppdev/data/weights/test4/chainer_refinenet_tmp.weight", type=str)
   args = parser.parse_args()
@@ -95,5 +95,5 @@ if __name__ == '__main__':
   print(counter)
   print((score_sum-counter)/(100-counter))
   import pickle
-  with open('/home/ppdev/codes/blogwatcher/github/chainer_refinenet/results/combined2.pickle', 'wb') as f:
+  with open('/home/ppdev/codes/blogwatcher/github/chainer_refinenet/results/test3.pickle', 'wb') as f:
       pickle.dump(scores, f)
